@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma Educativa Estilo Coursera - Proyecto HTML</title>
+    
+    <!-- Tailwind CSS CDN para el diseño moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        coursera: {
+                            blue: '#0056D2',
+                            darkBlue: '#003e99',
+                            lightBlue: '#e8f0fe',
+                            bgGray: '#f5f7fa',
+                            textDark: '#1f1f1f',
+                            cardBg: '#eef4ff'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Source Sans Pro', 'Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome (Íconos) y Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Source Sans Pro', sans-serif; }
+        .course-card { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .course-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        
+        /* Estilos pedagógicos para el Inspector de HTML */
+        .html-highlight {
+            outline: 2px dashed #0056D2 !important;
+            position: relative;
+        }
+        .html-badge {
+            position: absolute;
+            top: -12px;
+            left: 8px;
+            background-color: #0056D2;
+            color: white;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            z-index: 30;
+            font-family: monospace;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+
+<body class="min-h-full flex flex-col text-slate-800 bg-white">
+
+    <!-- BARRA PEDAGÓGICA SUPERIOR (Guía para Estudiante de Preparatoria) -->
+    <div class="bg-indigo-900 text-white text-xs py-2 px-4 flex justify-between items-center z-50">
+        <div class="flex items-center gap-2">
+            <span class="bg-indigo-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">Proyecto HTML Preparatoria</span>
+            <span class="hidden sm:inline text-indigo-200">Aprende etiquetas semánticas observando este sitio estilo Coursera</span>
+        </div>
+        <button onclick="toggleInspectorMode()" id="btnInspector" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-3 py-1 rounded-md text-xs transition flex items-center gap-1.5 shadow">
+            <i class="fa-solid fa-code"></i>
+            <span>Activar Inspector de Etiquetas HTML</span>
+        </button>
+    </div>
+
+    <!-- ETIQUETA: <header> - Encabezado superior de la página web -->
+    <header class="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-sm relative-container" data-tag="&lt;header&gt;">
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+            
+            <!-- LOGO Y MENÚ NAVEGACIÓN PRINCIPAL -->
+            <div class="flex items-center gap-6">
+                <!-- Logo Estilo Coursera -->
+                <a href="#" class="flex items-center" aria-label="Inicio Coursera">
+                    <span class="text-2xl font-black tracking-tight text-coursera-blue font-sans">coursera</span>
+                </a>
+
+                <!-- ETIQUETA: <nav> - Menú de Navegación -->
+                <nav class="hidden lg:flex items-center gap-4" data-tag="&lt;nav&gt;">
+                    <!-- Botón Explorar -->
+                    <div class="relative">
+                        <button class="flex items-center gap-1.5 px-3.5 py-2 text-sm font-semibold text-coursera-blue bg-blue-50 border border-transparent rounded-lg hover:bg-blue-100 transition">
+                            <span>Explorar</span>
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </button>
+                    </div>
+
+                    <!-- Enlaces del Menú -->
+                    <a href="#cursos" class="text-sm font-semibold text-slate-700 hover:text-coursera-blue transition">
+                        Títulos de grado
+                    </a>
+                    <a href="#cursos" class="text-sm font-semibold text-slate-700 hover:text-coursera-blue transition">
+                        Cursos de moda
+                    </a>
+                    <a href="#registro" class="text-sm font-semibold text-slate-700 hover:text-coursera-blue transition">
+                        Registrarse
+                    </a>
+                </nav>
+            </div>
+
+            <!-- BUSCADOR CON ETIQUETA <input> -->
+            <div class="flex-1 max-w-xl mx-2">
+                <form id="searchForm" onsubmit="event.preventDefault(); handleSearch();" class="relative flex items-center">
+                    <!-- Campo de texto para búsqueda -->
+                    <input type="text" id="searchInput" 
+                           placeholder="¿Qué deseas aprender?" 
+                           class="w-full pl-4 pr-12 py-2 text-sm rounded-full border border-slate-300 focus:outline-none focus:border-coursera-blue focus:ring-1 focus:ring-coursera-blue bg-slate-50 focus:bg-white transition shadow-inner">
+                    <!-- Botón con ícono de lupa -->
+                    <button type="submit" aria-label="Buscar cursos" class="absolute right-1 w-8 h-8 rounded-full bg-coursera-blue text-white flex items-center justify-center hover:bg-coursera-darkBlue transition">
+                        <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- ACCIONES DEL USUARIO (Botones de inicio y registro) -->
+            <div class="flex items-center gap-3">
+                <button aria-label="Novedades" class="hidden sm:flex text-coursera-blue hover:text-coursera-darkBlue p-2">
+                    <i class="fa-solid fa-sparkles text-lg"></i>
+                </button>
+                
+                <a href="#registro" class="text-xs sm:text-sm font-bold text-coursera-blue hover:underline px-2 py-1">
+                    Iniciar Sesión
+                </a>
+
+                <a href="#registro" class="px-4 py-2 text-xs sm:text-sm font-bold text-coursera-blue border-2 border-coursera-blue rounded-lg hover:bg-blue-50 transition shadow-sm">
+                    Únete de forma gratuita
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- ETIQUETA: <main> - Cuerpo Principal de la página web -->
+    <main class="flex-grow" data-tag="&lt;main&gt;">
+
+        <!-- SECCIÓN 1: HERO BANNERS (Tarjetas Promocionales estilo Coursera) -->
+        <!-- ETIQUETA: <section> - Sección temática de banners -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6" data-tag="&lt;section: banners&gt;">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                
+                <!-- HERO BANNER 1 (Tarjeta Oscura) -->
+                <div class="lg:col-span-6 bg-slate-950 text-white rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden shadow-lg min-h-[320px]">
+                    <!-- Resplandor decorativo -->
+                    <div class="absolute right-0 top-0 bottom-0 w-1/2 bg-gradient-to-l from-indigo-600/30 to-transparent pointer-events-none"></div>
+
+                    <div class="relative z-10 max-w-md space-y-4">
+                        <h1 class="text-2xl sm:text-3xl font-extrabold leading-tight">
+                            Comience, cambie o avance en su carrera
+                        </h1>
+                        <p class="text-sm text-slate-300">
+                            Crezca con más de 10.000 cursos de las mejores organizaciones y universidades del mundo.
+                        </p>
+                    </div>
+
+                    <div class="relative z-10 pt-6">
+                        <a href="#registro" class="inline-flex items-center gap-2 bg-white text-slate-950 hover:bg-slate-100 font-bold px-6 py-3 rounded-full text-sm transition shadow-md">
+                            <span>Únase gratis</span>
+                            <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+
+                    <!-- Foto decorativa flotante -->
+                    <div class="absolute right-4 bottom-4 hidden sm:block opacity-90 pointer-events-none">
+                        <div class="w-36 h-36 rounded-full border-4 border-indigo-500/30 overflow-hidden bg-slate-800 shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Estudiante en Coursera" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HERO BANNER 2 (Tarjeta Clara estilo Microsoft) -->
+                <div class="lg:col-span-6 bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100/60 border border-amber-200/80 rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden shadow-sm min-h-[320px]">
+                    
+                    <div class="relative z-10 max-w-md space-y-3">
+                        <!-- Branding de Microsoft con SVG simple -->
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="grid grid-cols-2 gap-0.5 w-4 h-4">
+                                <div class="bg-[#f25022]"></div>
+                                <div class="bg-[#7fba00]"></div>
+                                <div class="bg-[#00a4ef]"></div>
+                                <div class="bg-[#ffb900]"></div>
+                            </div>
+                            <span class="font-bold text-slate-700 text-xs tracking-wide">Microsoft</span>
+                        </div>
+
+                        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight">
+                            Navigate your career path in tech with Microsoft
+                        </h2>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Choose the skills that lead to today's most in-demand tech roles with more than 15 all-new courses from Microsoft.
+                        </p>
+                    </div>
+
+                    <div class="relative z-10 pt-6">
+                        <a href="#registro" class="inline-flex items-center gap-2 bg-[#0056D2] hover:bg-[#00419e] text-white font-bold px-6 py-3 rounded-full text-sm transition shadow-md">
+                            <span>Enroll now</span>
+                            <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+
+                    <!-- Ilustración lateral derecha -->
+                    <div class="absolute right-4 bottom-4 hidden sm:block opacity-90">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=300&q=80" alt="Cursos Microsoft Tech" class="w-32 h-32 object-cover rounded-2xl shadow-md border-2 border-white">
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Puntos de Navegación del Carrusel -->
+            <div class="flex justify-start gap-1.5 mt-4 px-2">
+                <span class="w-6 h-2 bg-slate-800 rounded-full"></span>
+                <span class="w-2 h-2 bg-slate-300 rounded-full"></span>
+                <span class="w-2 h-2 bg-slate-300 rounded-full"></span>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: CURSOS DE MODA (3 Columnas Exactas al Screenshot) -->
+        <section id="cursos" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-tag="&lt;section: cursos&gt;">
+            
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-slate-900">Cursos de moda</h2>
+                <span class="text-xs text-slate-500 font-medium hidden sm:inline">Haz clic en cualquier curso para seleccionarlo en el formulario de abajo</span>
+            </div>
+
+            <!-- GRID DE 3 COLUMNAS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- COLUMNA 1: Más populares -->
+                <div class="bg-[#eef4ff] rounded-2xl p-4 sm:p-5 border border-blue-100 flex flex-col space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-bold text-slate-900 text-base flex items-center gap-1.5">
+                            <span>Más populares</span>
+                            <i class="fa-solid fa-arrow-right text-xs text-slate-500"></i>
+                        </h3>
+                    </div>
+
+                    <!-- Curso 1.1: Análisis de datos de Google -->
+                    <article onclick="selectCourse('Análisis de datos de Google', 'Google')" class="course-card bg-white rounded-xl p-3 border border-slate-200/80 cursor-pointer flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=120&q=80" alt="Análisis de datos" class="w-14 h-14 rounded-lg object-cover flex-shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-1">
+                                <span class="text-[10px] font-extrabold text-rose-600">G</span>
+                                <span class="text-[11px] font-semibold text-slate-500">Google</span>
+                            </div>
+                            <h4 class="font-bold text-xs text-slate-900 truncate">Análisis de datos de Google</h4>
+                            <p class="text-[11px] text-slate-500">Certificado profesional</p>
+                            <div class="flex items-center gap-1 text-[11px] text-slate-700 mt-0.5">
+                                <i class="fa-solid fa-star text-amber-500 text-[10px]"></i>
+                                <span class="font-bold">4.8</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Curso 1.2: Fundamentos de Datos -->
+                    <article onclick="selectCourse('Fundamentos: Datos, datos, en todas partes', 'Google')" class="course-card bg-white rounded-xl p-3 border border-slate-200/80 cursor-pointer flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=120&q=80" alt="Fundamentos Datos" class="w-14 h-14 rounded-lg object-cover flex-shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-1">
+                                <span class="text-[10px] font-extrabold text-rose-600">G</span>
+                                <span class="text-[11px] font-semibold text-slate-500">Google</span>
+                            </div>
+                            <h4 class="font-bold text-xs text-slate-900 truncate">Fundamentos: Datos, datos, en todas partes</h4>
+                            <p class="text-[11px] text-slate-500">Curso</p>
+                            <div class="flex items-center gap-1 text-[11px] text-slate-700 mt-0.5">
+                                <i class="fa-solid fa-star text-amber-500 text-[10px]"></i>
+                                <span class="font-bold">4.8</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Curso 1.3: Python para todos -->
+                    <article onclick="selectCourse('Python para todos', 'University of Michigan')" class="course-card bg-white rounded-xl p-3 border border-slate-200/80 cursor-pointer flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=120&q=80" alt="Python para todos" class="w-14 h-14 rounded-lg object-cover flex-shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-1">
+                                <i class="fa-solid fa-building-columns text-[10px] text-yellow-600"></i>
+                                <span class="text-[11px] font-semibold text-slate-500 truncate">University of Michigan</span>
+                            </div>
+                            <h4 class="font-bold text-xs text-slate-900 truncate">Python para todos</h4>
+                            <p class="text-[11px] text-slate-500">Especialización</p>
+                            <div class="flex items-center gap-1 text-[11px] text-slate-700 mt-0.5">
+                                <i class="fa-solid fa-star text-amber-500 text-[10px]"></i>
+                                <span class="font-bold">4.8</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- COLUMNA 2: Destacado semanal -->
+                <div class="bg-[#eef4ff] rounded-2xl p-4 sm:p-5 border border-blue-100 flex flex-col space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-bold text-slate-900 text-base flex items-center gap-1.5">
+                            <span>Destacado semanal</span>
+                            <i class="fa-solid fa-arrow-right text-xs text-slate-500"></i>
+                        </h3>
+                    </div>
+
+                    <!-- Curso 2.1: Hugging Face -->
+                    <article onclick="selectCourse('Desarrollo de IA generativa con Hugging Face', 'Hugging Face')" class="course-card bg-white rounded-xl p-3 border border-slate-200/80 cursor-pointer flex items-center gap-3">
+                        <div class="w-14 h-14 rounded-lg bg-amber-100 flex items-center justify-center text-amber-600 text-2xl flex-shrink-0 font-bold">
+                            🤗
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <span class="text-[11px] font-semibold text-slate-500 block">Hugging Face</span>
+                            <h4 class="font-bold text-xs text-slate-900 truncate">Desarrollo de IA generativa con Hugging Face</h4>
+                            <p class="text-[11px] text-slate-500">Especialización</p>
+                        </div>
+                    </article>
+
+                    <!-- Curso 2.2: IBM FP&A -->
+                    <article onclick="selectCourse('IBM Planificación y Análisis Financiero (FP&A)', 'IBM')" class="course-card bg-white rounded-xl p-3 border border-slate-200/80 cursor-pointer flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=120&q=80" alt="IBM Financiero" class="w-14 h-14 rounded-lg object-cover flex-shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <span class="text-[11px] font-bold text-blue-700 block">IBM</span>
+                            <h4 class="font-bold text-xs text-slate-900 truncate">IBM Planificación y Análisis Financiero (FP&A)</h4>
+                            <p class="text-[11px] text-slate-500">Certificado profesional</p>
+                            <div class="flex items-center gap-1 text-[11px] text-slate-700 mt-0.5">
+                                <i class="fa-solid fa-star text-amber-500 text-[10px]"></i>
+                                <span class="font-bold">4.7</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Curso 2.3: IA de Google -->
+                    <article onclick="selectCourse('IA de Google - Certificado Profesional', 'Google')" class="course-card bg-white rounded-xl p-3 border border-slate-200/80 cursor-pointer flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=120&q=80" alt="IA Google" class="w-14 h-14 rounded-lg object-cover flex-shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-1">
+                                <span class="text-[10px] font-extrabold text-rose-600">G</span>
+                                <span class="text-[11px] font-semibold text-slate-500">Google</span>
+                            </div>
+                            <h4 class="font-bold text-xs text-slate-900 truncate">IA de Google</h4>
+                            <p class="text-[11px] text-slate-500">Certificado profesional</p>
+                            <div class="flex items-center gap-1 text-[11px] text-slate-700 mt-0.5">
+                                <i class="fa-solid fa-star text-amber-500 text-[10px]"></i>
+                                <span class="font-bold">4.8</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- COLUMNA 3: Conocimientos de IA demandados -->
+                <div class="bg-[#eef4ff] rounded-2xl p-4 sm:p-5 border border-blue-100 flex flex-col space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-bold text-slate-900 text-base flex items-center gap-1.5">
+                            <span>Conocimientos de IA demandados</span>
+                            <i class="fa-solid fa-arrow-right text-xs text-slate-500"></i>
+                        </h3>
+                    </div>
+
+                    <!-- Curso 3.1: IA Generativa para Marketing -->
+                    <article onclick="selectCourse('IA generativa para el marketing de crecimiento', 'Numerosos educadores')" class="course-card bg-white rounded-xl p-3 border border-slate-200/80 cursor-pointer flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=120&q=80" alt="IA Marketing" class="w-14 h-14 rounded-lg object-cover flex-shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <span class="text-[11px] font-semibold text-slate-500 block">Numerosos educadores</span>
+                            <h4 class="font-bold text-xs text-slate-900 truncate">IA generativa para el marketing de crecimiento</h4>
+                            <p class="text-[11px] text-slate-500">Especialización</p>
+                            <div class="flex items-center gap-1 text-[11px] text-slate-700 mt-0.5">
+                                <i class="fa-solid fa-star text-amber-500 text-[10px]"></i>
+                                <span class="font-bold">4.7</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Curso 3.2: Vanderbilt University -->
+                    <article onclick="selectCourse('Líder estratégico de IA generativa', 'Vanderbilt University')" class="course-card bg-white rounded-xl p-3 border border-slate-200/80 cursor-pointer flex items-center gap-3">
+                        <div class="w-14 h-14 rounded-lg bg-gradient-to-tr from-purple-600 to-indigo-500 flex items-center justify-center text-white text-xl font-bold flex-shrink-0">
+                            V
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <span class="text-[11px] font-semibold text-slate-500 block">Vanderbilt University</span>
+                            <h4 class="font-bold text-xs text-slate-900 truncate">Líder estratégico de IA generativa</h4>
+                            <p class="text-[11px] text-slate-500">Especialización</p>
+                            <div class="flex items-center gap-1 text-[11px] text-slate-700 mt-0.5">
+                                <i class="fa-solid fa-star text-amber-500 text-[10px]"></i>
+                                <span class="font-bold">4.8</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Curso 3.3: IBM Agentes de IA -->
+                    <article onclick="selectCourse('Creación de agentes de IA y flujos de trabajo', 'IBM')" class="course-card bg-white rounded-xl p-3 border border-slate-200/80 cursor-pointer flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=120&q=80" alt="IBM Agentes IA" class="w-14 h-14 rounded-lg object-cover flex-shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <span class="text-[11px] font-bold text-blue-700 block">IBM</span>
+                            <h4 class="font-bold text-xs text-slate-900 truncate">Creación de agentes de IA y flujos de trabajo</h4>
+                            <p class="text-[11px] text-slate-500">Especialización</p>
+                            <div class="flex items-center gap-1 text-[11px] text-slate-700 mt-0.5">
+                                <i class="fa-solid fa-star text-amber-500 text-[10px]"></i>
+                                <span class="font-bold">4.6</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: FORMULARIO DE INSCRIPCIÓN Y REGISTRO (REQUERIDO) -->
+        <section id="registro" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" data-tag="&lt;section: formulario&gt;">
+            
+            <div class="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 rounded-3xl p-6 sm:p-10 text-white shadow-2xl relative overflow-hidden border border-slate-800">
+                
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
+                    
+                    <!-- INFORMACIÓN DEL FORMULARIO -->
+                    <div class="lg:col-span-5 space-y-5">
+                        <span class="inline-block px-3 py-1 bg-coursera-blue text-white text-xs font-bold rounded-full uppercase tracking-wider">
+                            Formulario de Registro
+                        </span>
+                        
+                        <h2 class="text-3xl sm:text-4xl font-extrabold leading-tight">
+                            Únete gratis a la plataforma de aprendizaje
+                        </h2>
+                        
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Completa este formulario con tus datos para crear tu cuenta de estudiante e inscribirte en el curso seleccionado.
+                        </p>
+
+                        <!-- Explicación pedagógica para estudiante de preparatoria -->
+                        <div class="bg-indigo-950/80 border border-indigo-700/60 rounded-2xl p-4 text-xs space-y-2">
+                            <div class="font-bold text-indigo-300 flex items-center gap-1.5">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                                <span>Guía de HTML para Preparatoria:</span>
+                            </div>
+                            <ul class="list-disc list-inside text-indigo-200 space-y-1">
+                                <li><strong>&lt;form&gt;</strong>: Contenedor principal del formulario.</li>
+                                <li><strong>&lt;label&gt;</strong>: Conecta el texto con la casilla correspondiente.</li>
+                                <li><strong>&lt;input&gt;</strong>: Recibe datos (texto, correo, contraseña, radio).</li>
+                                <li><strong>&lt;select&gt;</strong>: Despliega una lista con varias opciones.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- ETIQUETA: <form> - FORMULARIO PRINCIPAL -->
+                    <div class="lg:col-span-7 bg-white text-slate-900 rounded-2xl p-6 sm:p-8 shadow-xl">
+                        
+                        <div class="border-b border-slate-200 pb-4 mb-6 flex justify-between items-center">
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900">Formulario de Inscripción Gratuita</h3>
+                                <p class="text-xs text-slate-500">Todos los campos con (*) son obligatorios</p>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-coursera-blue px-2.5 py-1 rounded-full font-bold">HTML Form</span>
+                        </div>
+
+                        <form id="courseraRegisterForm" onsubmit="handleFormSubmit(event)" class="space-y-4" data-tag="&lt;form&gt;">
+                            
+                            <!-- CAMPO 1: Nombre Completo (<input type="text">) -->
+                            <div class="space-y-1">
+                                <label for="fullName" class="block text-xs font-bold text-slate-700">
+                                    1. Nombre Completo <span class="text-rose-500">*</span>
+                                    <span class="text-[10px] text-indigo-600 font-mono ml-1">&lt;input type="text"&gt;</span>
+                                </label>
+                                <input type="text" id="fullName" required placeholder="Ej. Ana Sofía Martínez"
+                                       oninput="updateLivePreview()"
+                                       class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-coursera-blue focus:border-transparent transition">
+                            </div>
+
+                            <!-- CAMPO 2 & 3: Correo y Contraseña en 2 columnas -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="space-y-1">
+                                    <label for="email" class="block text-xs font-bold text-slate-700">
+                                        2. Correo Electrónico <span class="text-rose-500">*</span>
+                                        <span class="text-[10px] text-indigo-600 font-mono ml-1">&lt;input type="email"&gt;</span>
+                                    </label>
+                                    <input type="email" id="email" required placeholder="tu.correo@ejemplo.com"
+                                           oninput="updateLivePreview()"
+                                           class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-coursera-blue focus:border-transparent transition">
+                                </div>
+
+                                <div class="space-y-1">
+                                    <label for="password" class="block text-xs font-bold text-slate-700">
+                                        3. Contraseña <span class="text-rose-500">*</span>
+                                        <span class="text-[10px] text-indigo-600 font-mono ml-1">&lt;input type="password"&gt;</span>
+                                    </label>
+                                    <input type="password" id="password" required placeholder="Mínimo 8 caracteres" minlength="8"
+                                           class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-coursera-blue focus:border-transparent transition">
+                                </div>
+                            </div>
+
+                            <!-- CAMPO 4: Menú Desplegable (<select>) -->
+                            <div class="space-y-1">
+                                <label for="areaInterest" class="block text-xs font-bold text-slate-700">
+                                    4. Área de Interés Principal
+                                    <span class="text-[10px] text-indigo-600 font-mono ml-1">&lt;select&gt; y &lt;option&gt;</span>
+                                </label>
+                                <select id="areaInterest" onchange="updateLivePreview()" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-coursera-blue bg-white transition">
+                                    <option value="Análisis de Datos y Estadística">Análisis de Datos y Estadística</option>
+                                    <option value="Inteligencia Artificial y Machine Learning">Inteligencia Artificial y Machine Learning</option>
+                                    <option value="Programación en Python">Programación en Python</option>
+                                    <option value="Marketing Digital y Crecimiento">Marketing Digital y Crecimiento</option>
+                                    <option value="Negocios y Finanzas">Negocios y Finanzas</option>
+                                </select>
+                            </div>
+
+                            <!-- CAMPO 5: Nivel de Escolaridad (<input type="radio">) -->
+                            <div class="space-y-1 pt-1">
+                                <label class="block text-xs font-bold text-slate-700 mb-1">
+                                    5. Nivel de Escolaridad Actual
+                                    <span class="text-[10px] text-indigo-600 font-mono ml-1">&lt;input type="radio"&gt;</span>
+                                </label>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 text-xs">
+                                        <input type="radio" name="escolaridad" value="Preparatoria" checked onchange="updateLivePreview()" class="text-coursera-blue focus:ring-coursera-blue">
+                                        <span class="font-medium text-slate-800">Preparatoria</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 text-xs">
+                                        <input type="radio" name="escolaridad" value="Universidad" onchange="updateLivePreview()" class="text-coursera-blue focus:ring-coursera-blue">
+                                        <span class="font-medium text-slate-800">Universidad</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 text-xs">
+                                        <input type="radio" name="escolaridad" value="Profesional" onchange="updateLivePreview()" class="text-coursera-blue focus:ring-coursera-blue">
+                                        <span class="font-medium text-slate-800">Profesional</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- CAMPO 6: Curso Seleccionado (Dinámico al hacer clic arriba) -->
+                            <div class="space-y-1">
+                                <label for="selectedCourseInput" class="block text-xs font-bold text-slate-700">
+                                    6. Curso de Selección Inicial
+                                </label>
+                                <div class="flex gap-2">
+                                    <input type="text" id="selectedCourseInput" readonly value="Análisis de datos de Google"
+                                           class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-blue-200 bg-blue-50 font-bold text-coursera-blue cursor-not-allowed">
+                                </div>
+                            </div>
+
+                            <!-- CAMPO 7: Casilla de Aceptación (<input type="checkbox">) -->
+                            <div class="flex items-start gap-2 pt-2">
+                                <input type="checkbox" id="terms" required class="mt-0.5 rounded text-coursera-blue focus:ring-coursera-blue">
+                                <label for="terms" class="text-xs text-slate-600">
+                                    Acepto las <a href="#" class="text-coursera-blue underline">Condiciones del Servicio</a> y la <a href="#" class="text-coursera-blue underline">Política de Privacidad</a> de Coursera.
+                                </label>
+                            </div>
+
+                            <!-- VISTA PREVIA EN TIEMPO REAL (Para Aprendizaje) -->
+                            <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs space-y-1">
+                                <div class="font-bold text-slate-600 uppercase text-[10px] tracking-wider">Vista previa de datos ingresados:</div>
+                                <div class="text-slate-800">
+                                    <span class="font-semibold">Estudiante:</span> <span id="previewName" class="text-slate-500 italic">Escribe tu nombre...</span>
+                                </div>
+                                <div class="text-slate-800">
+                                    <span class="font-semibold">Correo:</span> <span id="previewEmail" class="text-slate-500 italic">Escribe tu correo...</span>
+                                </div>
+                                <div class="text-slate-800">
+                                    <span class="font-semibold">Nivel:</span> <span id="previewLevel" class="text-coursera-blue font-bold">Preparatoria</span>
+                                </div>
+                            </div>
+
+                            <!-- BOTÓN DE ENVIAR (<button type="submit">) -->
+                            <button type="submit" class="w-full py-3.5 px-6 bg-coursera-blue hover:bg-coursera-darkBlue text-white font-bold text-sm rounded-xl transition shadow-md flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Únete Gratis a Coursera</span>
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ETIQUETA: <footer> - Pie de página del sitio web -->
+    <footer class="bg-slate-100 border-t border-slate-200 mt-12 text-slate-600 text-xs" data-tag="&lt;footer&gt;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pb-8 border-b border-slate-200">
+                
+                <!-- Columna 1 -->
+                <div class="space-y-3">
+                    <h4 class="font-bold text-slate-900 text-sm">Coursera</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:underline">Acerca de</a></li>
+                        <li><a href="#" class="hover:underline">¿Qué ofrecemos?</a></li>
+                        <li><a href="#" class="hover:underline">Liderazgo</a></li>
+                        <li><a href="#" class="hover:underline">Carreras</a></li>
+                        <li><a href="#" class="hover:underline">Catálogo de Cursos</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna 2 -->
+                <div class="space-y-3">
+                    <h4 class="font-bold text-slate-900 text-sm">Comunidad</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:underline">Estudiantes</a></li>
+                        <li><a href="#" class="hover:underline">Socios e Instituciones</a></li>
+                        <li><a href="#" class="hover:underline">Desarrolladores</a></li>
+                        <li><a href="#" class="hover:underline">Blog de Coursera</a></li>
+                        <li><a href="#" class="hover:underline">Centro de Ayuda</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna 3 -->
+                <div class="space-y-3">
+                    <h4 class="font-bold text-slate-900 text-sm">Empresas & Gobierno</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:underline">Coursera for Business</a></li>
+                        <li><a href="#" class="hover:underline">Coursera for Campus</a></li>
+                        <li><a href="#" class="hover:underline">Coursera for Government</a></li>
+                        <li><a href="#" class="hover:underline">Historias de Éxito</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna 4 -->
+                <div class="space-y-3">
+                    <h4 class="font-bold text-slate-900 text-sm">Aplicaciones Móviles</h4>
+                    <div class="space-y-2">
+                        <a href="#" class="flex items-center gap-2 bg-slate-900 text-white px-3 py-2 rounded-lg font-semibold w-full">
+                            <i class="fa-brands fa-apple text-base"></i>
+                            <div>
+                                <div class="text-[9px] text-slate-400">Consíguelo en el</div>
+                                <div class="text-xs">App Store</div>
+                            </div>
+                        </a>
+                        <a href="#" class="flex items-center gap-2 bg-slate-900 text-white px-3 py-2 rounded-lg font-semibold w-full">
+                            <i class="fa-brands fa-google-play text-base"></i>
+                            <div>
+                                <div class="text-[9px] text-slate-400">DISPONIBLE EN</div>
+                                <div class="text-xs">Google Play</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Inferior del Footer -->
+            <div class="pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <span class="text-xl font-black text-coursera-blue">coursera</span>
+                    <span class="text-slate-400">© 2026 Coursera Inc. Proyecto Escolar HTML Preparatoria.</span>
+                </div>
+
+                <div class="flex items-center gap-4 text-slate-500">
+                    <a href="#" aria-label="Facebook" class="hover:text-coursera-blue"><i class="fa-brands fa-facebook text-base"></i></a>
+                    <a href="#" aria-label="Twitter" class="hover:text-coursera-blue"><i class="fa-brands fa-twitter text-base"></i></a>
+                    <a href="#" aria-label="LinkedIn" class="hover:text-coursera-blue"><i class="fa-brands fa-linkedin text-base"></i></a>
+                    <a href="#" aria-label="YouTube" class="hover:text-coursera-blue"><i class="fa-brands fa-youtube text-base"></i></a>
+                    <a href="#" aria-label="Instagram" class="hover:text-coursera-blue"><i class="fa-brands fa-instagram text-base"></i></a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- MODAL DE CONFIRMACIÓN DE REGISTRO / COMPROBANTE -->
+    <div id="registrationModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl border border-slate-100">
+            <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-3xl">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            
+            <h3 class="text-xl font-bold text-slate-900">¡Registro Exitoso!</h3>
+            
+            <p class="text-xs text-slate-600 leading-relaxed">
+                Hemos recibido tu solicitud de inscripción de nivel preparatoria. Aquí están tus datos registrados:
+            </p>
+
+            <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl text-left space-y-2 text-xs">
+                <div>
+                    <span class="text-slate-400 uppercase font-bold text-[10px] block">Estudiante:</span>
+                    <span id="modalName" class="font-bold text-slate-800">--</span>
+                </div>
+                <div>
+                    <span class="text-slate-400 uppercase font-bold text-[10px] block">Correo Registrado:</span>
+                    <span id="modalEmail" class="font-bold text-slate-800">--</span>
+                </div>
+                <div>
+                    <span class="text-slate-400 uppercase font-bold text-[10px] block">Nivel Escolar:</span>
+                    <span id="modalLevel" class="font-bold text-coursera-blue">--</span>
+                </div>
+                <div>
+                    <span class="text-slate-400 uppercase font-bold text-[10px] block">Curso Seleccionado:</span>
+                    <span id="modalCourse" class="font-bold text-slate-800">--</span>
+                </div>
+            </div>
+
+            <button onclick="closeModal()" class="w-full py-2.5 bg-coursera-blue hover:bg-coursera-darkBlue text-white font-bold text-xs rounded-xl transition">
+                Cerrar Comprobante
+            </button>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR PARA NOTIFICACIONES TOAST -->
+    <div id="toastContainer" class="fixed bottom-4 right-4 z-50 space-y-2 pointer-events-none"></div>
+
+    <!-- JAVASCRIPT DE INTERACCIÓN Y VISTA EN TIEMPO REAL -->
+    <script>
+        let isInspectorActive = false;
+
+        // Selección de Curso al hacer clic en las tarjetas
+        function selectCourse(courseTitle, provider) {
+            const courseInput = document.getElementById('selectedCourseInput');
+            courseInput.value = `${courseTitle} (${provider})`;
+
+            // Desplazamiento suave al formulario
+            document.getElementById('registro').scrollIntoView({ behavior: 'smooth' });
+
+            showToast(`Curso seleccionado: "${courseTitle}"`, 'info');
+        }
+
+        // Actualizar la vista previa en tiempo real dentro del formulario
+        function updateLivePreview() {
+            const nameVal = document.getElementById('fullName').value;
+            const emailVal = document.getElementById('email').value;
+            
+            const levelVal = document.querySelector('input[name="escolaridad"]:checked').value;
+
+            document.getElementById('previewName').textContent = nameVal.trim() !== '' ? nameVal : 'Escribe tu nombre...';
+            document.getElementById('previewEmail').textContent = emailVal.trim() !== '' ? emailVal : 'Escribe tu correo...';
+            document.getElementById('previewLevel').textContent = levelVal;
+        }
+
+        // Manejar el envío del formulario
+        function handleFormSubmit(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const level = document.querySelector('input[name="escolaridad"]:checked').value;
+            const course = document.getElementById('selectedCourseInput').value;
+
+            // Rellenar datos en el modal comprobante
+            document.getElementById('modalName').textContent = name;
+            document.getElementById('modalEmail').textContent = email;
+            document.getElementById('modalLevel').textContent = level;
+            document.getElementById('modalCourse').textContent = course;
+
+            // Mostrar el modal
+            document.getElementById('registrationModal').classList.remove('hidden');
+        }
+
+        // Cerrar modal
+        function closeModal() {
+            document.getElementById('registrationModal').classList.add('hidden');
+            document.getElementById('courseraRegisterForm').reset();
+            document.getElementById('selectedCourseInput').value = "Análisis de datos de Google";
+            updateLivePreview();
+        }
+
+        // Búsqueda interactiva
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (query) {
+                showToast(`Buscando resultados para: "${query}"`, 'info');
+            }
+        }
+
+        // Modo Inspector para estudiante de preparatoria (Resalta las etiquetas HTML)
+        function toggleInspectorMode() {
+            isInspectorActive = !isInspectorActive;
+            const btn = document.getElementById('btnInspector');
+
+            const elements = document.querySelectorAll('[data-tag]');
+
+            if (isInspectorActive) {
+                btn.classList.replace('bg-indigo-600', 'bg-emerald-600');
+                btn.querySelector('span').textContent = 'Desactivar Inspector HTML';
+                
+                elements.forEach(el => {
+                    el.classList.add('html-highlight');
+                    const badge = document.createElement('span');
+                    badge.className = 'html-badge';
+                    badge.textContent = el.getAttribute('data-tag');
+                    el.prepend(badge);
+                });
+
+                showToast('Modo Inspector HTML Activado', 'info');
+            } else {
+                btn.classList.replace('bg-emerald-600', 'bg-indigo-600');
+                btn.querySelector('span').textContent = 'Activar Inspector de Etiquetas HTML';
+                
+                elements.forEach(el => {
+                    el.classList.remove('html-highlight');
+                    const badge = el.querySelector('.html-badge');
+                    if (badge) badge.remove();
+                });
+
+                showToast('Modo Inspector Desactivado', 'info');
+            }
+        }
+
+        // Función para mostrar mensajes flotantes (Toast)
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'pointer-events-auto px-4 py-3 rounded-xl shadow-lg border text-xs font-semibold bg-slate-900 text-white border-slate-700 flex items-center gap-2 transition-all duration-300 transform translate-y-2 opacity-0';
+            toast.innerHTML = `<i class="fa-solid fa-circle-info text-coursera-blue"></i> <span>${message}</span>`;
+            
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+
+</body>
+</html>
